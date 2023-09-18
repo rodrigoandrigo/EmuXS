@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="EmuXS.Termi"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EmuXS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="SeaGreen">
+
+    <RelativePanel>
+        <Border
+            Margin="4"
+            BorderBrush="Transparent"
+            RelativePanel.Above="TextBox1"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                  VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="TextIO1">
+
+                </TextBlock>
+
+            </ScrollViewer>
+
+        </Border>
+        <StackPanel Height="50" Width="50">
+            <Button x:Name="Termib1" FontFamily="Segoe MDL2 Assets" Content="&#xf0d5;" Width="50" Height="50" Background="Transparent" Click="Termib1_Click"/>
+        </StackPanel>
+        <TextBox x:Name="TextBox1" 
+            Background="Transparent"
+            KeyDown="TextBox1_KeyDown"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"/>
+    </RelativePanel>
+</Page>
