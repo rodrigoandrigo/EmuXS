@@ -16,132 +16,76 @@ using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
-using Device = SharpDX.Direct3D11.Device;
-
 
 namespace EmuXS
 {
 
     public sealed partial class DirectxPage : Page
     {
-        private SharpDX.Direct3D11.Device d3dDevice;
+        private SharpDX.Direct3D11.Device device;
         private SwapChain swapChain;
-        private SharpDX.Direct3D11.DeviceContext d3dContext;
         private RenderTargetView renderTargetView;
-        private Texture2D backBuffer;
-        private bool initialized = false;
 
         public DirectxPage()
         {
             this.InitializeComponent();
-            this.Loaded += OnLoaded;
-            this.Unloaded += OnUnloaded;
+            this.Loaded += MainPage_Loaded;
+
+
+
+        }
+        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            CreateDeviceResources();
+            CreateSwapChain();
+            Draw();
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void CreateDeviceResources()
         {
-            InitializeDirectX();
-            CompositionTarget.Rendering += OnRendering;
+            var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
+#if DEBUG
+            deviceCreationFlags |= DeviceCreationFlags.Debug;
+#endif
+
+            device = new SharpDX.Direct3D11.Device(DriverType.Hardware, deviceCreationFlags);
         }
 
-        private void OnUnloaded(object sender, RoutedEventArgs e)
+        private void CreateSwapChain()
         {
-            CompositionTarget.Rendering -= OnRendering;
-            DisposeDirectX();
-        }
-
-        private void InitializeDirectX()
-        {
-            // Configurar a descrição da cadeia de troca
-            var swapChainDesc = new SwapChainDescription()
+            var desc = new SwapChainDescription1()
             {
-                BufferCount = 1,
-                ModeDescription = new ModeDescription(
-                    (int)swapChainPanel1.ActualWidth,
-                    (int)swapChainPanel1.ActualHeight,
-                    new Rational(60, 1), Format.R8G8B8A8_UNorm),
-                IsWindowed = false,
-                //otputHandle = ,
+                AlphaMode = AlphaMode.Ignore,
+                BufferCount = 2,
+                Format = Format.B8G8R8A8_UNorm,
+                Height = (int)swapChainPanel.ActualHeight,
+                Width = (int)swapChainPanel.ActualWidth,
                 SampleDescription = new SampleDescription(1, 0),
-                SwapEffect = SwapEffect.Discard,
+                SwapEffect = SwapEffect.FlipSequential,
                 Usage = Usage.RenderTargetOutput
             };
 
+            var dxgiDevice = device.QueryInterface<SharpDX.DXGI.Device2>();
+            var dxgiAdapter = dxgiDevice.Adapter.QueryInterface<SharpDX.DXGI.Adapter2>();
+            var dxgiFactory = dxgiAdapter.GetParent<SharpDX.DXGI.Factory2>();
+            swapChain = new SwapChain1(dxgiFactory, device, ref desc);
+            dxgiDevice.MaximumFrameLatency = 1;
 
-
-            // Crie o dispositivo e a cadeia de troca
-            SharpDX.Direct3D11.Device.CreateWithSwapChain(
-                DriverType.Hardware,
-                DeviceCreationFlags.None,
-                swapChainDesc,
-                out d3dDevice,
-                out swapChain);
-
-            // Obtenha o contexto do dispositivo
-            d3dContext = d3dDevice.ImmediateContext;
-
-            // Obtenha o back buffer da cadeia de troca
-            backBuffer = Texture2D.FromSwapChain<Texture2D>(swapChain, 0);
-
-            // Crie uma render target view
-            renderTargetView = new RenderTargetView(d3dDevice, backBuffer);
-
-            initialized = true;
+            using (var backBuffer = swapChain.GetBackBuffer<Texture2D>(0))
+                renderTargetView = new RenderTargetView(device, backBuffer);
         }
 
-        private void DisposeDirectX()
+        private void Draw()
         {
-            if (initialized)
-            {
-                renderTargetView.Dispose();
-                backBuffer.Dispose();
-                d3dContext.ClearState();
-                d3dContext.Flush();
-                d3dContext.Dispose();
-                d3dDevice.Dispose();
-                swapChain.Dispose();
-                initialized = false;
-            }
+            var context = device.ImmediateContext;
+            context.OutputMerger.SetRenderTargets(renderTargetView);
+            context.ClearRenderTargetView(renderTargetView, new SharpDX.Mathematics.Interop.RawColor4(0.5f, 0.5f, 0.5f, 1.0f));
+            swapChain.Present(1, PresentFlags.None);
         }
 
-        private void OnRendering(object sender, object e)
-        {
-            if (initialized)
-            {
-                // Limpe o back buffer
-                d3dContext.ClearRenderTargetView(renderTargetView, Color.CornflowerBlue);
-
-                // Renderize sua cena DirectX aqui
-
-                // Apresente a cena
-                swapChain.Present(1, PresentFlags.None);
-            }
-        }
-
-        private void Page2b1_Click(object sender, RoutedEventArgs e)
-        {
-            SplitV1.IsPaneOpen = !SplitV1.IsPaneOpen;
-
-        }
-
-        private void Page2b2_Click(object sender, RoutedEventArgs e)
+        private void BackFromScreen_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
-        }
-
-        private void Term_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Termi));
-        }
-
-        private void Configuracoes1_Click(object sender, RoutedEventArgs e)
-        {
-            //Frame.Navigate(typeof(#));
-        }
-
-        private void Teladirectx_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
