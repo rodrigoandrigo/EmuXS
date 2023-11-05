@@ -13,33 +13,33 @@ namespace EmuXS
 
     public sealed partial class Termi : Page
     {
-        public TermConPTY termConPTY;
+        //public TermConPTY termConPTY;
         public Termi()
         {
             this.InitializeComponent();
 
             InitializeComponent();
 
-            termConPTY = new TermConPTY
-            {
-                WorkingDirectory = Directory.GetCurrentDirectory(),
-                Arguments = string.Empty,
-                FilterControlSequences = true,
-            };
+            //termConPTY = new TermConPTY
+            //{
+             //   WorkingDirectory = Directory.GetCurrentDirectory(),
+             //   Arguments = string.Empty,
+            //    FilterControlSequences = true,
+            //};
 
-            termConPTY.OutputDataReceived += async (sender, data) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    Run Data1;
-                    Data1 = new Run();
-                    Data1.Text = data + "\n";
-                    TextIO1.Inlines.Add(Data1);
-                });
-            };
+            //termConPTY.OutputDataReceived += async (sender, data) =>
+            //{
+            //    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        Run Data1;
+            //        Data1 = new Run();
+            //        Data1.Text = data + "\n";
+            //        TextIO1.Inlines.Add(Data1);
+            //    });
+            //};
 
 
-            ProcessInfo processInfo = termConPTY.Start();
+            //ProcessInfo processInfo = termConPTY.Start();
 
         }
 
@@ -48,7 +48,13 @@ namespace EmuXS
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                termConPTY.WriteLine(TextBox1.Text);
+                Run Data2;
+                Data2 = new Run();
+                Data2.Text = TextBox1.Text + "\n";
+                TextIO1.Inlines.Add(Data2);
+
+
+                //termConPTY.WriteLine(TextBox1.Text);
                 e.Handled = true;
                 TextBox1.Text = "";
             }

@@ -29,7 +29,7 @@ namespace EmuXS
 
         private void Telasdl_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(DirectxPage));
+            Frame.Navigate(typeof(ScreenPage));
         }
 
         private void Configuracoes1_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="EmuXS.ScreenPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EmuXS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    mc:Ignorable="d"
+    Background="SeaGreen">
+
+    <Grid>
+        <canvas:CanvasControl x:Name="CanvasScreen" Draw="CanvasControl_Draw_1" ClearColor="SeaGreen"/>
+        <Button x:Name="ScreenB1" FontFamily="Segoe MDL2 Assets" Content="&#xf0d5;" Width="50" Height="50" Background="Transparent" Click="BackFromScreen_Click"/>
+    </Grid>
+</Page>

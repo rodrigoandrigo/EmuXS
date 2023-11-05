@@ -9,7 +9,7 @@
     Background="SeaGreen">
 
     <Grid>
-        <SplitView x:Name="SplitV1" DisplayMode="CompactOverlay" OpenPaneLength="550" CompactPaneLength="50"  Background="Transparent" FlowDirection="LeftToRight" Margin="0,0,1350,0">
+        <SplitView x:Name="SplitV1" DisplayMode="CompactOverlay" OpenPaneLength="550" CompactPaneLength="50"  Background="Transparent" FlowDirection="LeftToRight" Margin="0,0,1275,0">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -24,11 +24,11 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="Page2b2" FontFamily="Segoe MDL2 Assets" Content="&#xf0d5;" Width="50" Height="50" Background="Transparent" Click="Page2b2_Click"/>
-                            <TextBlock Text="Voltar" FontSize="18" VerticalAlignment="Center" />
+                            <TextBlock Text="Back" FontSize="18" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="Telasdl" FontFamily="Segoe MDL2 Assets" Content="&#xe770;" Width="50" Height="50" Background="Transparent" Click="Telasdl_Click"/>
-                            <TextBlock Text="Tela" FontSize="18" VerticalAlignment="Center" />
+                            <TextBlock Text="Screen" FontSize="18" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="Configuracoes1" FontFamily="Segoe MDL2 Assets" Content="&#xe9f5;" Width="50" Height="50" Background="Transparent" Click="Configuracoes1_Click"/>
